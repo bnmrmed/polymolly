@@ -1,0 +1,14 @@
+# Default values for polymolly.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+wordpressReplicaCount: 1
+mySqlReplicaCount: 1
+
+mySqlPassword: polyconseil
+
+volumeSizeClaimWordpress: 2Gi
+volumeSizeClaimMySql: 2Gi
+
+nodePort: 30080
+mySqlPort: 3306
