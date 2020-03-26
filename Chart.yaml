@@ -3,6 +3,8 @@ appVersion: "1.0"
 description: A Helm chart for a Kubernetes wordpress cluster asked by polyConseil
 name: polymolly
 version: 0.1.0
-maintainer: 
+maintainers: 
+  name: khaled SMIRI aka Assaffa7
+  name: naoufal ElAbouyi aka ElYabess (contraire de Layiine hein machi Ji3ane)
   name: mohammed BENAMMAR
   email: mohammed2benammar@gmail.com
