@@ -1,0 +1,212 @@
+---
+application:
+  name: milborne
+  image: ild.docker.blue/milborne:1.85.3
+
+configMapEntries:
+  DEFAULT:
+    environment: prod
+    platform: staging
+    services_urls_file: /config/urls.yaml
+  blauth:
+    enable_xuser_synchro: true
+  bluesup:
+    service_backend: libbluesup.backends.whiterabbit.AlarmWhiterabbitBackend
+  cors:
+    ops_origin_whitelist: stations.blueehp.eu, monitoring.blueehp.eu
+  db:
+    host: ehp-milborne-milborne-postgres.eu-west-1.vipehp.blue  # Get this one from AWS but should be something like that
+    log_all_queries_sample_percent: 1
+    name: milborne
+    user: milborne_app
+  django:
+    allowed_hosts: '*'
+    enable_oook_login: true
+  email:
+    host: smtprelay.blueehp.eu
+    wifirst: carsharing-telecom@polyconseil.fr
+    # wifirst: xavier.ordoquy@polyconseil.fr
+  eventlog:
+    amqp_destination: service.columbo_world
+    backend: bluetils.eventlog.backends.log_and_amqp_backend
+  features:
+    end_swappable_ownership_on_freeze_on_services: autolib
+    planned_closure_preparation_long_period: 0h
+    planned_closure_preparation_period: 3h
+    power_delivery_control_by_milborne: bluecub,bluely,bluecity,bluetorino,sourcelondon,bluelib
+    sealed_outlet_and_power_limit: true
+  ldap:
+    bind_dn: CN=si_autolib,OU=COMPTES DE SERVICE,OU=TECHNIQUE,DC=blueehp,DC=group
+    bind_gssapi: 'False'
+    group_base: OU=SI,OU=APPLI,OU=GROUPS,OU=TECHNIQUE,DC=blueehp,DC=group
+    ignore_user_dn_re: .*(?:OU=EXT,OU=AUTOLIB,OU=BLUE-SOLUTIONS|OU=EXT,OU=BLUECAR,OU=BLUE-SOLUTIONS|OU=EXT,OU=BLUEINDY,OU=BLUE-SOLUTIONS),OU=ORGANISATION,DC=blueehp,DC=group
+    query_base: DC=blueehp,DC=group
+    query_timeout: '2'
+    uri: ldap://ildead01.blueehp.group
+    user_base: OU=ORGANISATION,DC=blueehp,DC=group
+  libbluesup:
+    aggregate_ping_reports: true
+  logging:
+    syslog_address: 100.83.2.1:514
+    syslog_facility: local0
+  oook:
+    certificates: |-
+      -----BEGIN CERTIFICATE-----
+      MIIF+DCCBOCgAwIBAgITEgAAADfTFZl3V2D1FgAAAAAANzANBgkqhkiG9w0BAQsF
+      ADBGMRUwEwYKCZImiZPyLGQBGRYFZ3JvdXAxFzAVBgoJkiaJk/IsZAEZFgdibHVl
+      ZWhwMRQwEgYDVQQDEwtCTFVFLUVIUC1DQTAeFw0xOTEyMTIxNDA2MDdaFw0yMDEy
+      MTExNDA2MDdaMHAxCzAJBgNVBAYTAkZSMRYwFAYDVQQIEw1JbGUtZGUtRnJhbmNl
+      MQ4wDAYDVQQHEwVQYXJpczEXMBUGA1UEChMOQmx1ZSBTb2x1dGlvbnMxDTALBgNV
+      BAsTBE9vb2sxETAPBgNVBAMTCGFwcC1vb29rMIIBIjANBgkqhkiG9w0BAQEFAAOC
+      AQ8AMIIBCgKCAQEAxamcvZhb+vV7WgeLFoKFtnSLDIz5RuuuDsESxyCnrDcLsb/w
+      lXb4Lvi5n0f2AZBZ64dYpDQokWJfU/4KjyYvr6rNFdoA1PIF5qDn6si8m0ED1Q/Q
+      URe/+xj4CPMtqc4i+B4R6WTyaVOXKVTkSit/UmmaHTFSjO2xyh9x2Pedtas3stJ0
+      TmCxa+wB8BR2L1Y78s5v/Vnelmrljp1RlNcI7NhpN53Mly7RymY4YQOIDYMRnGrU
+      Wx/wRfGoJtIGk0N2rHDfpR+emD1S23XRZi2QBdP9DEQRTgKVjTL7G0Cj5Ui0PYgg
+      SWol4eec9S85W+LIMDBklSzVT7BRNwwYIjMBSQIDAQABo4ICszCCAq8wHQYDVR0O
+      BBYEFA9/sH5Gamgn5B7N+xcFcqh518MoMB8GA1UdIwQYMBaAFAkSBPVrj5hRdhva
+      y1kOg5GLp+NiMIHMBgNVHR8EgcQwgcEwgb6ggbuggbiGgbVsZGFwOi8vL0NOPUJM
+      VUUtRUhQLUNBLENOPUlMREVDQTAxLENOPUNEUCxDTj1QdWJsaWMlMjBLZXklMjBT
+      ZXJ2aWNlcyxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLERDPWJsdWVlaHAs
+      REM9Z3JvdXA/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENs
+      YXNzPWNSTERpc3RyaWJ1dGlvblBvaW50MIG/BggrBgEFBQcBAQSBsjCBrzCBrAYI
+      KwYBBQUHMAKGgZ9sZGFwOi8vL0NOPUJMVUUtRUhQLUNBLENOPUFJQSxDTj1QdWJs
+      aWMlMjBLZXklMjBTZXJ2aWNlcyxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9u
+      LERDPWJsdWVlaHAsREM9Z3JvdXA/Y0FDZXJ0aWZpY2F0ZT9iYXNlP29iamVjdENs
+      YXNzPWNlcnRpZmljYXRpb25BdXRob3JpdHkwDgYDVR0PAQH/BAQDAgWgMD4GCSsG
+      AQQBgjcVBwQxMC8GJysGAQQBgjcVCIbAqA+D6NAYh/WHLoHWiU+Gv/oygUaBt7Uw
+      hem3AgIBZAIBBTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwJwYJKwYB
+      BAGCNxUKBBowGDAKBggrBgEFBQcDATAKBggrBgEFBQcDAjBEBgkqhkiG9w0BCQ8E
+      NzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYI
+      KoZIhvcNAwcwDQYJKoZIhvcNAQELBQADggEBAKLPp1rt/oRESKwacvs7i/U5QeDF
+      E5RZiAuKtNVFjcddAezhG8e9hvqpbE8R6F14imh2G1M1P6CHZILEzUGGkBi560Te
+      3g2LX8LQsVvr7ZM6s4gmL5uZkz8gYuujm7G8aaXbUW2jsqLlOJNQJ/dVzevzT39I
+      I/mcNnhsXBD+EopAAYEhABGwJCW86DaE/tJavaqyalcBYaLouZ7C10rj+QblcY1l
+      ytqAb9x2MwhHEWHXkKdMRWF1tq0WHqfFdyJ1yj/rWh1oVRcMGk7ctYL31yOpfsQs
+      XeTb6cB/+fqFKl8dkhCIs9HlSXJlXzi2nSjlRC6UmT4UV7v9osbnk927jy0=
+      -----END CERTIFICATE-----
+  rabbitmq-default:
+    host: rab-karotz.blueehp.eu
+    username: milborne_app
+    vhost: /inter-si
+  redis:
+    db: 1
+    host: redis.mil.vipehp.blue
+    port: 6379
+  s3:
+    backup_user_email: blue@blueehp.eu
+    bucket_name: milborne
+    enabled: true
+    endpoint_url: https://scality-s3.blueehp.eu
+    file_overwrite: false
+  whiterabbit:
+    board_exchange_name: board.federated-exchange
+    send_message_declare_queue: false
+    service_exchange_name: service.federated-exchange
+  wifirst:
+    wan_offer_codes: Tel-SFR-1, BT-Tel-1, BT-Tel-2, TEF-SFR-1, TI-TEF-1, TI-TEF-2
+
+secretEntries:
+  ldap:
+    bind_password: "{{ vault.ldap_bind_password }}"
+  rabbitmq-default:
+    password: "{{ vault.rabbitmq_default_password }}"
+  gmaps:
+    api_key: "{{ vault.gmaps_api_key }}"
+    geocoding_api_key: "{{ vault.gmaps_geocoding_api_key }}"
+  wifirst:
+    api_password: "{{ vault.wifirst_api_password }}"
+  s3:
+    access_key: "{{ vault.s3_access_key }}"
+    secret_key: "{{ vault.s3_secret_key }}"
+  redis:
+    password: "{{ vault.redis_password }}"
+  sentry:
+    dsn: "{{ vault.sentry_dsn }}"
+  db:
+    password: "{{ vault.db_password }}"
+  django:
+    secret_key: "{{ vault.django_secret_key }}"
+
+httpProxy: http://proxy.eu-west-1.vipprd.blue:8080
+httpsProxy: http://proxy.eu-west-1.vipprd.blue:8080
+noProxy: 127.0.0.1,100.83.2.1,169.254.169.254,localhost,autoehp.eu,blue-solutions.com,blue-solutions.group,bluecarsharing.eu,blueehp.eu,blueehp.group,bluesg.com.sg,bluesystems.ai,bornes.blue,docker.blue,s3.amazonaws.com,sts.eu-west-1.amazonaws.com,s3.eu-west-1.amazonaws.com,sts.amazonaws.com,/var/run/docker.sock,vip.production.autolib.eu,vipehp.blue,vipprd.blue
+
+extraEnvVars:
+  - name: BLUEDJANGO_METRICS_ENABLED
+    value: "1"
+  - name: BLUEDJANGO_UWSGI_RELOAD_ON_AS
+    value: "1280"
+  - name: BLUEDJANGO_UWSGI_WORKERS
+    value: "5"
+
+components:
+  cron:
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  ops:
+    ingressHosts:
+      - mil-ops.blueehp.eu
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  wrk:
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  ws:
+    ingressHosts:
+      - mil-ws.blueehp.eu
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    sslRedirectEnabled: False
+  ws-ext:
+    albInternalFacing: true
+    ingressHosts:
+      - mil-ws-ext.blueehp.eu
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+ingress:
+  alb:
+    create: True
+    dnsZoneName: vipehp.blue
+  tls:
+    - hosts:
+        - mil-ops.blueehp.eu
+        - mil-ws-ext.blueehp.eu
+        - mil-ws.blueehp.eu
+
+monitoring:
+  prometheusNamespace: supervision
+
+redis:
+  password: "{{ vault.redis_password }}"
